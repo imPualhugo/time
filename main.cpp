@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
         lds->help_show();
     } else if (0 == strcmp(argv[1], "-info")) {
         lds->info_show();
-    }
+    }else if (0 == strcmp(argv[1], "-lang"))
 
     return 0;
 }

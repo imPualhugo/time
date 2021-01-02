@@ -5,10 +5,12 @@
 #ifndef TIME_LANGUAGE_DISPLAY_STRATEGY_H
 #define TIME_LANGUAGE_DISPLAY_STRATEGY_H
 #include <cstdio>
+#include <string>
 
 #include "../setting.h"
 
 class language_display_strategy {
+
 public:
 
     virtual void time_show(){}
@@ -20,6 +22,8 @@ public:
                "time_zone:%.2lf\n"
                "version:%s\n", lang, time_zone, version);
     }
+
+    std::string change_lang_text[5];
 };
 
 

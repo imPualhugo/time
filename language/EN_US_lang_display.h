@@ -9,6 +9,11 @@
 #include "../setting.h"
 #include "cstdio"
 class EN_US_lang_display : public virtual language_display_strategy{
+public:
+
+    std::string change_lang_text[5] = {
+            "Type the language number you want to change and press Enter.\n"};
+
     void time_show() override{
         weekdays = (char**)weekdays_en;
         show_now_time();
@@ -24,7 +29,9 @@ class EN_US_lang_display : public virtual language_display_strategy{
         printf("\ttime (-now) Get local time string.\n");
         printf("\ttime (-now) Get help information.\n");
         printf("\ttime (-now) Get setting-related information.\n");
+        printf("\ttime -lang Language setting\n");
     }
+
 };
 
 

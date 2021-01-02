@@ -19,14 +19,14 @@ string profile_path = "../setting.properties";
 
 char version[] = "0.0.1";
 
-char props_key[MAX_PROPS_SIZE][MAX_PROP_LEN]={
+char props_key[MAX_PROPS_SIZE][MAX_PROP_LEN] = {
         "lang",
         "time_zone",
         "open_tips"
 };
 
 string lang_placeholder[] = {
-    "简体中文","繁体中文","英文"
+        "简体中文", "繁體中文", "English"
 };
 
 void init_prop() {
@@ -45,10 +45,19 @@ void init_prop() {
 
 }
 
-void changeLanguage(){
-    printf("键入需要更改语言的序号并回车\n");
-    for (int i = 0; i < lang_placeholder->size(); ++i) {
-        printf("%d.%s",i+1,lang_placeholder[i].c_str());
-    }
-}
+//void changeLanguage(language_display_strategy *lds) {
+//    printf("%s", lds->change_lang_text[0].c_str());
+//    int choose = 2;
+//    for (int i = 0; i < lang_placeholder->size(); ++i) {
+//        printf("%d.%s", i + 1, lang_placeholder[i].c_str());
+//        if (i % 3 == 0) {
+//            //每三个换一行
+//            printf("\n");
+//        }
+//    }
+//    int input = 2;
+//    scanf("%d",&input);
+////    if (input > );
+//
+//}
 

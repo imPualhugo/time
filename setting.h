@@ -13,6 +13,8 @@
 #include <cstring>
 #include <cstdlib>
 
+//#include "language/language_display_strategy.h"
+
 extern char lang[];
 extern double time_zone;
 extern char version[];
@@ -21,7 +23,7 @@ extern std::string profile_path;
 
 void init_prop();
 
-
+//void changeLanguage(language_display_strategy *lds);
 
 
 //struct prop[]  read_prop(FILE *prop_file);
