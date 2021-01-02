@@ -7,12 +7,17 @@
 #define MAX_PROPS_SIZE 256
 
 #define MAX_PROP_LEN 128
+
+#include <string>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+
 extern char lang[];
 extern double time_zone;
 extern char version[];
 extern bool open_tips;
-//int *p_lang = &lang;
-//float *p_time_zone = &time_zone;
+extern std::string profile_path;
 
 void init_prop();
 

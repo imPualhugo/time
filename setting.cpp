@@ -6,9 +6,7 @@
 
 
 
-#include <cstdio>
-#include <cstring>
-#include <cstdlib>
+
 #include "setting.h"
 
 
@@ -17,7 +15,7 @@
 char lang[MAX_PROP_LEN];
 double time_zone = 0.0f;
 bool open_tips = true;
-
+string profile_path = "../setting.properties";
 
 char version[] = "0.0.1";
 
@@ -27,17 +25,13 @@ char props_key[MAX_PROPS_SIZE][MAX_PROP_LEN]={
         "open_tips"
 };
 
-
-
-//int props_index = -1;
-//
-//struct prop {
-//    char key[MAX_PROP_LEN];
-//    char value[MAX_PROP_LEN];
-//};
+string lang_placeholder[] = {
+    "简体中文","繁体中文","英文"
+};
 
 void init_prop() {
-    FILE *prop_file = fopen("../setting.properties", "r+");
+
+    FILE *prop_file = fopen(profile_path.c_str(), "r+");
 
     auto *props = new properties(MAX_PROP_LEN, MAX_PROP_LEN);
 
@@ -49,49 +43,12 @@ void init_prop() {
 
     fclose(prop_file);
 
-//    struct prop props[MAX_PROPS_SIZE];  //size 16
-//    //读取每一行的数据，并且写入结构体中
-//    char buf[MAX_PROP_LEN * 2 + 3];
-//    while (!feof(prop_file)) {
-//        props_index++;
-//        memset(buf, 0, sizeof(buf));//清空缓冲区
-//        fgets(buf, sizeof(buf), prop_file);
-//        //去掉空行与注释
-//        if (buf[0] == '\n' || buf[0]=='\0' || buf[0]=='#'){
-//            continue;
-//        }
-//        char temp_str[MAX_PROP_LEN];
-//        memset(temp_str, 0, sizeof(temp_str));//清空缓冲区
-//        int i = 0; //buf当前的index
-//        for (int j = 0; '=' != buf[i]; ++i, ++j) {
-//            temp_str[j] = buf[i];
-//        }
-//        strcpy(props[props_index].key, temp_str);
-//        //读取value
-//        i++;
-//        memset(temp_str, 0, sizeof(temp_str));
-//        for (int j = 0; '\n' != buf[i] && '\0' != buf[i]; ++i, ++j) {
-//            temp_str[j] = buf[i];
-//        }
-//        strcpy(props[props_index].value, temp_str);
-//    }
-//
-//    fclose(prop_file);
-//
-//    for (int i = 0; i <= props_index; ++i) {
-//        if (0 == strcmp(props[i].key, "lang")) {
-//            strcpy(lang, props[i].value);
-//        }
-//
-//        if (0 == strcmp(props[i].key, "time_zone")) {
-//            time_zone = strtod(props[i].value, nullptr);
-////            time_zone = atof(props[i].value);
-//        }
-//
-//        if (0 == strcmp(props[i].key, "open_tips")) {
-//            open_tips = strcmp(props[i].value, "false") != 0;
-//        }
-//    }
+}
 
+void changeLanguage(){
+    printf("键入需要更改语言的序号并回车\n");
+    for (int i = 0; i < lang_placeholder->size(); ++i) {
+        printf("%d.%s",i+1,lang_placeholder[i].c_str());
+    }
 }
 

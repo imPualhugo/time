@@ -9,6 +9,12 @@
 #include <cstdio>
 #include <vector>
 #include <string>
+#include <cstring>
+#include <iostream>
+#include <fstream>
+
+#include "../setting.h"
+
 
 typedef unsigned long ulong;
 
@@ -37,17 +43,28 @@ class properties {
 public:
     properties(int keyLen, int valueLen);
 
+    ~properties() = default;
+
     void scan_prop_file(FILE *path);
 
     int size();
 
-    ulong search_key_index(char *key);
+    ulong search_key_index(const char *key);
 
     char *get_value(char *key);
 
     ulong get_line_num(char *key);
 
-    ulong add(char *key,char *value);
+    string kv_array_toString();
+
+    ulong add(const char *key,const char *value);
+
+    bool del(const char *key,const char *profile);
+
+    bool update(const char *key,const char *value,char *profile);
+private:
+
+    bool scan_check();
 };
 
 

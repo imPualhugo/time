@@ -3,7 +3,7 @@
 //
 
 
-#include <cstring>
+
 #include "properties.h"
 
 
@@ -20,7 +20,6 @@ void properties::scan_prop_file(FILE *file) {
         return;
     }
     char buf[key_len + value_len + 3];
-
 
 
     while (!feof(file)) {
@@ -63,7 +62,7 @@ void properties::scan_prop_file(FILE *file) {
 
 }//tested
 
-ulong properties::search_key_index(char *key) {
+ulong properties::search_key_index(const char *key) {
     ulong index = 0;
     auto first = kv_array.begin();
     auto end = kv_array.end();
@@ -92,26 +91,169 @@ int properties::size() {
     return kv_array.size();
 }
 
-ulong properties::get_line_num(char *key){
-    if (search_key_index(key) != -1){
+ulong properties::get_line_num(char *key) {
+    if (search_key_index(key) != -1) {
         return kv_array.at(search_key_index(key)).line_num;
     }
     return 0;
 }
 
 
-
-
 //返回值为插入的行
-ulong properties::add(char *key,char *value){
-    if (file_input == nullptr){
-        perror("还未扫描过一次配置文件");
+ulong properties::add(const char *key, const char *value) {
+    if (scan_check()) {
+        scan_prop_file(file_input);
+
+        fprintf(file_input, "\n%s=%s\n", key, value);
+
+
+        scan_prop_file(file_input);
+
+        return line_num_present;
     }
-    scan_prop_file(file_input);
+    return 0;
 
-    fprintf(file_input,"%s=%s\n",key,value);
+}
 
-    scan_prop_file(file_input);
+bool properties::scan_check() {
+    if (file_input == nullptr) {
+        perror("还未扫描过一次配置文件");
+        return false;
+    }
+    return true;
+}
 
-    return line_num_present;
+string properties::kv_array_toString() {
+    string ret;
+    if (scan_check()) {
+        scan_prop_file(file_input);
+        ret.append("{\n");
+        for (auto &i : kv_array) {
+            //char* 无法直接使用重载的+号
+            string key = i.key;
+            string value = i.value;
+            ret += "{\n";
+            ret += "\tline_num:" + std::to_string(i.line_num) + ",\n";
+            ret += "\tkey:" + key + ",\n";
+            ret += "\tvalue:" + value + "\n";
+            ret += "}\n";
+        }
+        ret.append("}");
+    }
+    return ret;
+}
+
+
+bool properties::del(const char *key, const char *profile) {
+
+    if (key != nullptr) {
+        if (scan_check()) {
+            scan_prop_file(file_input);
+
+            //已经在kv_array中删除
+            //删除文件中的配置需要重新写入文件
+
+            FILE *_old = fopen(profile, "r");
+            string temp = profile;
+            temp += ".tmp";
+            FILE *_new = fopen(temp.c_str(), "w");
+//            char buf[2048];
+//            fread(buf,sizeof (buf),1,_old);
+//            fputs(buf,_new);
+//
+            char buf[512];
+            while (!feof(_old)) {
+                fgets(buf, sizeof(buf), _old);
+                string temp0;
+                for (int i = 0; buf[i] != '='; ++i) {
+                    temp0 += buf[i];
+                }
+                if (temp0 == key) {
+                    continue;
+                }
+                fputs(buf, _new);
+            }
+            fclose(_old);
+            fclose(_new);
+
+            string command = "rm " + string(profile);
+            system(command.c_str());
+
+            command = "mv " + string(profile) + ".tmp " + string(profile);
+
+            system(command.c_str());
+            scan_prop_file(file_input);
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
+bool properties::update(const char *key, const char *value,char *profile) {
+    if (key != nullptr) {
+        if (scan_check()) {
+            scan_prop_file(file_input);
+
+            bool updated = false;
+
+            ulong index = 0;
+            auto first = kv_array.begin();
+            auto end = kv_array.end();
+            while (first != end) {
+                if (0 == strcmp(first->key, key)) {
+                    strcpy(first->value, value);
+                    updated = true;
+                }
+                ++index;
+                ++first;
+            }
+            if (!updated) {
+                return false;
+            }
+            //已经在kv_array中修改
+            //修改文件中的配置需要重新写入文件
+
+            FILE *_old = fopen(profile, "r");
+            string temp = profile;
+            temp += ".tmp";
+            FILE *_new = fopen(temp.c_str(), "w");
+
+
+
+            char buf[512];
+            while (!feof(_old)) {
+                fgets(buf, sizeof(buf), _old);
+                printf("%s",buf);
+                string temp0;
+                int i;
+                for (i = 0; buf[i] != '='; ++i) {
+                    temp0 += buf[i];
+                }
+
+                if (temp0 != key) {
+                    for (int j = i; buf[j] != '\0'; ++j) {
+                        temp0 += buf[j];
+                    }
+                }else{
+                    temp0 += '=';
+                    temp0.append(value);
+                }
+                fputs(temp0.c_str(), _new);
+            }
+            fclose(_old);
+            fclose(_new);
+
+            string command = "rm " + string(profile);
+            system(command.c_str());
+
+            command = "mv " + string(profile) + ".tmp " + string(profile);
+
+            system(command.c_str());
+            scan_prop_file(file_input);
+            return true;
+        }
+    }
+    return false;
 }
