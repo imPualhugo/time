@@ -143,6 +143,33 @@ time/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/time.dir/build.make CMakeFiles/time.dir/build
 .PHONY : time/fast
 
+init.o: init.cpp.o
+
+.PHONY : init.o
+
+# target to build an object file
+init.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/time.dir/build.make CMakeFiles/time.dir/init.cpp.o
+.PHONY : init.cpp.o
+
+init.i: init.cpp.i
+
+.PHONY : init.i
+
+# target to preprocess a source file
+init.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/time.dir/build.make CMakeFiles/time.dir/init.cpp.i
+.PHONY : init.cpp.i
+
+init.s: init.cpp.s
+
+.PHONY : init.s
+
+# target to generate assembly for a file
+init.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/time.dir/build.make CMakeFiles/time.dir/init.cpp.s
+.PHONY : init.cpp.s
+
 language/language_display_strategy.o: language/language_display_strategy.cpp.o
 
 .PHONY : language/language_display_strategy.o
@@ -314,6 +341,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... time"
+	@echo "... init.o"
+	@echo "... init.i"
+	@echo "... init.s"
 	@echo "... language/language_display_strategy.o"
 	@echo "... language/language_display_strategy.i"
 	@echo "... language/language_display_strategy.s"

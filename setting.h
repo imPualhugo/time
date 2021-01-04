@@ -4,28 +4,19 @@
 
 #ifndef TIME_SETTING_H
 #define TIME_SETTING_H
-#define MAX_PROPS_SIZE 256
 
-#define MAX_PROP_LEN 128
 
 #include <string>
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
 
-//#include "language/language_display_strategy.h"
-
-extern char lang[];
-extern double time_zone;
-extern char version[];
-extern bool open_tips;
-extern std::string profile_path;
-
-void init_prop();
-
-//void changeLanguage(language_display_strategy *lds);
+#include "language/language_display_strategy.h"
 
 
-//struct prop[]  read_prop(FILE *prop_file);
+
+void changeLanguage(language_display_strategy lds);
+
+
 
 #endif //TIME_SETTING_H

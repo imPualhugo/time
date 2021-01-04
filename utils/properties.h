@@ -13,7 +13,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "../setting.h"
+//#include "../setting.h"
 
 
 typedef unsigned long ulong;

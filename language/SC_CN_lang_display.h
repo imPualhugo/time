@@ -15,7 +15,7 @@
 
 class SC_CN_lang_display : public virtual language_display_strategy {
 public:
-    std::string change_lang_text[5] = {"键入需要更改语言的序号并回车\n"};
+
 
     void time_show() override{
         weekdays = (char**)weekdays_sc;
@@ -37,7 +37,7 @@ public:
     }
 
 
-
+    std::string change_lang_text[5] = {"键入需要更改语言的序号并回车\n"};
 
 };
 

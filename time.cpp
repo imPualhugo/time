@@ -6,8 +6,8 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
-#include "setting.h"
-#include "math.h"
+#include <cmath>
+#include "init.h"
 
 using namespace std;
 
@@ -22,7 +22,7 @@ char **weekdays = (char**)weekdays_en;
 void show_now_time() {
     time_t now;
     time(&now);//获取系统时间
-    char time_str[1000];
+    char time_str[100];
     struct tm *p;
     p = localtime(&now);
 
@@ -48,6 +48,6 @@ void show_now_time() {
             weekdays[p->tm_wday - 1]);
     printf("%s", time_str);
 
-//    printf("lang:%d time zone:%f\n",lang,time_zone);
+//    printf("lang:%s time zone:%f\n",lang,time_zone);
 }
 
