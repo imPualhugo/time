@@ -12,7 +12,9 @@
 class TC_CN_lang_display:public virtual language_display_strategy{
 public:
 
-    std::string change_lang_text[5] = {"鍵入需要更改語言的序號並回車\n"};
+    std::string change_lang_text[5] = {"鍵入需要更改語言的序號並回車",
+                                       "參數輸入錯誤!語言不改變",
+                                       "語言修改為: 繁體中文"};
 
     void time_show() override{
         weekdays = (char**)weekdays_tc;
@@ -31,6 +33,10 @@ public:
         printf("\ttime -h 獲取幫助資訊\n");
         printf("\ttime -info 獲取設置相關資訊\n");
         printf("\ttime -lang 語言設置\n");
+    }
+
+    string chang_lang_tips(int index) override{
+        return change_lang_text[index];
     }
 
 };

@@ -18,15 +18,15 @@ char props_key[MAX_PROPS_SIZE][MAX_PROP_LEN] = {
         "open_tips"
 };
 
-string lang_placeholder[] = {
-        "简体中文", "繁體中文", "English"
-};
+unsigned int lang_index = 2;
+
+properties *props;
 
 void init_prop() {
 
     FILE *prop_file = fopen(profile_path.c_str(), "r+");
 
-    auto *props = new properties(MAX_PROP_LEN, MAX_PROP_LEN);
+    props = new properties(MAX_PROP_LEN, MAX_PROP_LEN);
 
     props->scan_prop_file(prop_file);
 
@@ -34,6 +34,18 @@ void init_prop() {
     time_zone = strtod(props->get_value(props_key[1]), nullptr);
     open_tips = strcmp(props->get_value(props_key[2]), "false") != 0;
 
+    lang_index_load(lang);
     fclose(prop_file);
 
 }
+
+void lang_index_load(string basicString){
+    if (basicString == "sc_cn"){
+        lang_index = 0;
+    }else if(basicString == "tc_cn"){
+        lang_index = 1;
+    }else{
+        return;
+    }
+}
+

@@ -36,8 +36,16 @@ public:
         printf("\ttime -lang 更改语言\n");
     }
 
+    std::string change_lang_text[10] = {"键入需要更改语言的序号并回车",
+                                        "参数输入错误!语言不改变",
+                                        "语言修改为: 简体中文"};
 
-    std::string change_lang_text[5] = {"键入需要更改语言的序号并回车\n"};
+    string chang_lang_tips(int index) override{
+        return change_lang_text[index];
+    }
+
+
+
 
 };
 

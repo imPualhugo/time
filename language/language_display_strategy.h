@@ -26,7 +26,10 @@ public:
                "time_zone:%.2lf\n"
                "version:%s\n", lang, time_zone, version);
     }
-    std::string change_lang_text[5];
+
+    virtual string chang_lang_tips(int index){
+        return "Internal error:\n\terror usage: base class:chang_lang_tips(...)";
+    }
 
 private:
 

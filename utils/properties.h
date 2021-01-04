@@ -61,10 +61,12 @@ public:
 
     bool del(const char *key,const char *profile);
 
-    bool update(const char *key,const char *value,char *profile);
+    bool update(const char *key,const char *value,const char *profile);
 private:
 
     bool scan_check();
+
+    void clear_array();
 };
 
 

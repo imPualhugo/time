@@ -12,7 +12,9 @@ class EN_US_lang_display : public virtual language_display_strategy{
 public:
 
     std::string change_lang_text[5] = {
-            "Type the language number you want to change and press Enter.\n"};
+            "Type the language number you want to change and press Enter.",
+            "Type a fault number! Language won't change.",
+            "Language has changed to English."};
 
     void time_show() override{
         weekdays = (char**)weekdays_en;
@@ -32,6 +34,10 @@ public:
         printf("\ttime -lang Language setting\n");
     }
 
+
+    string chang_lang_tips(int index) override{
+        return change_lang_text[index];
+    }
 };
 
 

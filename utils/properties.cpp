@@ -12,13 +12,28 @@ properties::properties(int keyLen, int valueLen) : key_len(keyLen), value_len(va
     this->value_len = valueLen;
 }
 
+void properties::clear_array(){
+    auto first = kv_array.begin();
+    for (int i = 0; i < kv_array.size(); ++i) {
+        kv_array.erase(first);
+        ++first;
+    }
+    line_num_present = 0;
+}
+
 void properties::scan_prop_file(FILE *file) {
     file_input = file;
 
     if (file == nullptr) {
-        perror("没有找到配置文件");
+        perror("scan_prop_file(): 没有找到配置文件\n");
         return;
     }
+
+
+    //扫描之前清空数组
+    clear_array();
+
+
     char buf[key_len + value_len + 3];
 
 
@@ -147,10 +162,10 @@ string properties::kv_array_toString() {
 bool properties::del(const char *key, const char *profile) {
 
     if (key != nullptr) {
-        if (scan_check()) {
+        file_input = fopen(profile,"r");
+        if (file_input != nullptr) {
             scan_prop_file(file_input);
 
-            //已经在kv_array中删除
             //删除文件中的配置需要重新写入文件
 
             FILE *_old = fopen(profile, "r");
@@ -191,27 +206,18 @@ bool properties::del(const char *key, const char *profile) {
 
 
 
-bool properties::update(const char *key, const char *value,char *profile) {
+bool properties::update(const char *key, const char *value,const char *profile) {
+
+
+
     if (key != nullptr) {
-        if (scan_check()) {
+
+        file_input = fopen(profile,"r");
+        if (file_input != nullptr) {
+//            printf("key:%s v:%s profile:%s\n",key,value,profile);
             scan_prop_file(file_input);
 
-            bool updated = false;
-
-            ulong index = 0;
-            auto first = kv_array.begin();
-            auto end = kv_array.end();
-            while (first != end) {
-                if (0 == strcmp(first->key, key)) {
-                    strcpy(first->value, value);
-                    updated = true;
-                }
-                ++index;
-                ++first;
-            }
-            if (!updated) {
-                return false;
-            }
+//            printf("扫描结果:%s\n",kv_array_toString().c_str());
             //已经在kv_array中修改
             //修改文件中的配置需要重新写入文件
 
@@ -225,10 +231,9 @@ bool properties::update(const char *key, const char *value,char *profile) {
             char buf[512];
             while (!feof(_old)) {
                 fgets(buf, sizeof(buf), _old);
-                printf("%s",buf);
                 string temp0;
                 int i;
-                for (i = 0; buf[i] != '='; ++i) {
+                for (i = 0; buf[i] != '=' && buf[i] != '\0'; ++i) {
                     temp0 += buf[i];
                 }
 
@@ -239,6 +244,7 @@ bool properties::update(const char *key, const char *value,char *profile) {
                 }else{
                     temp0 += '=';
                     temp0.append(value);
+                    temp0 += '\n';
                 }
                 fputs(temp0.c_str(), _new);
             }

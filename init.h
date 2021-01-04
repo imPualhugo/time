@@ -18,10 +18,13 @@ extern double time_zone;
 extern char version[];
 extern bool open_tips;
 extern string profile_path;
-extern string lang_placeholder[];
 
+extern unsigned int lang_index;
+
+extern properties *props;
 
 void init_prop();
 
+void lang_index_load(string basicString);
 
 #endif //TIME_INIT_H
