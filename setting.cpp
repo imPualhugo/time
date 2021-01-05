@@ -72,3 +72,11 @@ language_display_strategy *changeLanguage(language_display_strategy *lds) {
     return lds;
 }
 
+
+void tips_switch(bool on){
+    on ?
+    props->update("open_tips","true",profile_path.c_str()) :
+    props->update("open_tips","false",profile_path.c_str());
+
+}
+

@@ -32,6 +32,7 @@ public:
         printf("\ttime (-now) Get help information.\n");
         printf("\ttime (-now) Get setting-related information.\n");
         printf("\ttime -lang Language setting\n");
+        printf("\ttime -tips (on|off) tips switch\n");
     }
 
 

@@ -34,6 +34,7 @@ public:
         printf("\ttime -h 获取帮助信息\n");
         printf("\ttime -info 获取设置相关信息\n");
         printf("\ttime -lang 更改语言\n");
+        printf("\ttime -tips (on|off) tips开关\n");
     }
 
     std::string change_lang_text[10] = {"键入需要更改语言的序号并回车",

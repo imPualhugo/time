@@ -33,6 +33,7 @@ public:
         printf("\ttime -h 獲取幫助資訊\n");
         printf("\ttime -info 獲取設置相關資訊\n");
         printf("\ttime -lang 語言設置\n");
+        printf("\ttime -tips (on|off) tips開關\n");
     }
 
     string change_lang_tips(int index) override{
