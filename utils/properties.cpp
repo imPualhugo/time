@@ -94,7 +94,7 @@ ulong properties::search_key_index(const char *key) {
     return index;
 }
 
-char *properties::get_value(char *key) {
+char *properties::get_value(const char *key) {
     if (kv_array.empty() || search_key_index(key) == -1) {
         return nullptr;
     }
@@ -106,7 +106,7 @@ int properties::size() {
     return kv_array.size();
 }
 
-ulong properties::get_line_num(char *key) {
+ulong properties::get_line_num(const char *key) {
     if (search_key_index(key) != -1) {
         return kv_array.at(search_key_index(key)).line_num;
     }
@@ -164,9 +164,15 @@ bool properties::del(const char *key, const char *profile) {
     if (key != nullptr) {
         file_input = fopen(profile,"r");
         if (file_input != nullptr) {
+
             scan_prop_file(file_input);
 
             //删除文件中的配置需要重新写入文件
+
+            if (search_key_index(key) == -1){
+                return true;
+            }
+
 
             FILE *_old = fopen(profile, "r");
             string temp = profile;
@@ -178,6 +184,7 @@ bool properties::del(const char *key, const char *profile) {
 //
             char buf[512];
             while (!feof(_old)) {
+                memset(buf,0,sizeof (buf));
                 fgets(buf, sizeof(buf), _old);
                 string temp0;
                 for (int i = 0; buf[i] != '='; ++i) {
@@ -221,6 +228,10 @@ bool properties::update(const char *key, const char *value,const char *profile) 
             //已经在kv_array中修改
             //修改文件中的配置需要重新写入文件
 
+            if(strcmp(get_value(key),value) == 0){
+                return true;
+            }
+
             FILE *_old = fopen(profile, "r");
             string temp = profile;
             temp += ".tmp";
@@ -230,6 +241,7 @@ bool properties::update(const char *key, const char *value,const char *profile) 
 
             char buf[512];
             while (!feof(_old)) {
+                memset(buf,0,sizeof (buf));
                 fgets(buf, sizeof(buf), _old);
                 string temp0;
                 int i;
