@@ -94,7 +94,7 @@ ulong properties::search_key_index(const char *key) {
     return index;
 }
 
-char *properties::get_value(const char *key) {
+char *properties::get_value(char *key) {
     if (kv_array.empty() || search_key_index(key) == -1) {
         return nullptr;
     }
@@ -106,7 +106,7 @@ int properties::size() {
     return kv_array.size();
 }
 
-ulong properties::get_line_num(const char *key) {
+ulong properties::get_line_num(char *key) {
     if (search_key_index(key) != -1) {
         return kv_array.at(search_key_index(key)).line_num;
     }
@@ -166,11 +166,6 @@ bool properties::del(const char *key, const char *profile) {
         if (file_input != nullptr) {
             scan_prop_file(file_input);
 
-            //验证已删除
-            if(search_key_index(key) == -1){
-                return true;
-            }
-
             //删除文件中的配置需要重新写入文件
 
             FILE *_old = fopen(profile, "r");
@@ -183,7 +178,6 @@ bool properties::del(const char *key, const char *profile) {
 //
             char buf[512];
             while (!feof(_old)) {
-                memset(buf,0,sizeof (buf));
                 fgets(buf, sizeof(buf), _old);
                 string temp0;
                 for (int i = 0; buf[i] != '='; ++i) {
@@ -223,13 +217,9 @@ bool properties::update(const char *key, const char *value,const char *profile) 
 //            printf("key:%s v:%s profile:%s\n",key,value,profile);
             scan_prop_file(file_input);
 
-            //验证已更改
-            if(strcmp(get_value(key),value) == 0){
-                return true;
-            }
-
+//            printf("扫描结果:%s\n",kv_array_toString().c_str());
+            //已经在kv_array中修改
             //修改文件中的配置需要重新写入文件
-
 
             FILE *_old = fopen(profile, "r");
             string temp = profile;
@@ -240,7 +230,6 @@ bool properties::update(const char *key, const char *value,const char *profile) 
 
             char buf[512];
             while (!feof(_old)) {
-                memset(buf,0,sizeof (buf));
                 fgets(buf, sizeof(buf), _old);
                 string temp0;
                 int i;
@@ -248,14 +237,14 @@ bool properties::update(const char *key, const char *value,const char *profile) 
                     temp0 += buf[i];
                 }
 
-                if (temp0 == key) {
-                    temp0 += '=';
-                    temp0.append(value);
-                    temp0 += '\n';
-                }else{
+                if (temp0 != key) {
                     for (int j = i; buf[j] != '\0'; ++j) {
                         temp0 += buf[j];
                     }
+                }else{
+                    temp0 += '=';
+                    temp0.append(value);
+                    temp0 += '\n';
                 }
                 fputs(temp0.c_str(), _new);
             }
