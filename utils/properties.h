@@ -51,9 +51,9 @@ public:
 
     ulong search_key_index(const char *key);
 
-    char *get_value(char *key);
+    char *get_value(const char *key);
 
-    ulong get_line_num(char *key);
+    ulong get_line_num(const char *key);
 
     string kv_array_toString();
 

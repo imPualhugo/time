@@ -22,6 +22,7 @@ language_display_strategy *language_load(language_display_strategy *lds);
 
 language_display_strategy *changeLanguage(language_display_strategy *lds);
 
+void tips_switch(bool on);
 
 
 #endif //TIME_SETTING_H
