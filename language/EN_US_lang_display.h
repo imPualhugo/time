@@ -35,7 +35,7 @@ public:
     }
 
 
-    string chang_lang_tips(int index) override{
+    string change_lang_tips(int index) override{
         return change_lang_text[index];
     }
 };

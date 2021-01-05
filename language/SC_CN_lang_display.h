@@ -40,7 +40,7 @@ public:
                                         "参数输入错误!语言不改变",
                                         "语言修改为: 简体中文"};
 
-    string chang_lang_tips(int index) override{
+    string change_lang_tips(int index) override{
         return change_lang_text[index];
     }
 

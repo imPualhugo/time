@@ -27,8 +27,8 @@ public:
                "version:%s\n", lang, time_zone, version);
     }
 
-    virtual string chang_lang_tips(int index){
-        return "Internal error:\n\terror usage: base class:chang_lang_tips(...)";
+    virtual string change_lang_tips(int index){
+        return "Internal error:\n\terror usage: base class:change_lang_tips(...)";
     }
 
 private:

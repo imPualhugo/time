@@ -26,7 +26,7 @@ language_display_strategy *language_load(language_display_strategy *lds) {
 
 
 language_display_strategy *changeLanguage(language_display_strategy *lds) {
-    printf("%s\n", lds->chang_lang_tips(0).c_str());
+    printf("%s\n", lds->change_lang_tips(0).c_str());
 
     for (int i = 0; i < lang_placeholder.size(); ++i) {
         printf("%d.%s\t", i + 1, lang_placeholder[i].c_str());
@@ -39,7 +39,7 @@ language_display_strategy *changeLanguage(language_display_strategy *lds) {
     scanf("%d", &input);
     printf("input: %d\n", input);
     if (input > lang_placeholder.size() || input <= 0) {
-        perror(lds->chang_lang_tips(1).c_str());
+        perror(lds->change_lang_tips(1).c_str());
 
     } else {
         string language;
@@ -64,7 +64,7 @@ language_display_strategy *changeLanguage(language_display_strategy *lds) {
         if (ret) {
 
             lds = language_load(lds);
-            printf("%s\n", lds->chang_lang_tips(2).c_str());
+            printf("%s\n", lds->change_lang_tips(2).c_str());
             return lds;
         }
     }
