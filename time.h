@@ -10,10 +10,14 @@
 
 void show_now_time();
 
+void year_month_Upto(struct tm *p, int upto);
+
 extern const char *weekdays_sc[];
 extern const char *weekdays_tc[];
 extern const char *weekdays_en[];
 
 extern char **weekdays;
+
+
 
 #endif //TIME_TIME_H

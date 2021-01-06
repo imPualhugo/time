@@ -10,7 +10,7 @@ double time_zone = 0.0f;
 bool open_tips = true;
 string profile_path = "../setting.properties";
 
-char version[] = "0.0.1";
+char version[] = "0.0.2";
 
 char props_key[MAX_PROPS_SIZE][MAX_PROP_LEN] = {
         "lang",
@@ -31,7 +31,20 @@ void init_prop() {
     props->scan_prop_file(prop_file);
 
     strcpy(lang, props->get_value(props_key[0]));
-    time_zone = strtod(props->get_value(props_key[1]), nullptr);
+
+
+    if (abs(strtod(props->get_value(props_key[1]), nullptr)) > 12){
+        printf("warn:Time zone setting is out of range.\n");
+        if (strtod(props->get_value(props_key[1]), nullptr) < 0){
+           time_zone = -12;
+        }else if (strtod(props->get_value(props_key[1]), nullptr) > 0){
+            time_zone = 12;
+//            time_zone = strtod(props->get_value(props_key[1]), nullptr);
+        }
+    } else{
+        time_zone = strtod(props->get_value(props_key[1]), nullptr);
+    }
+
     open_tips = strcmp(props->get_value(props_key[2]), "false") != 0;
 
     lang_index_load(lang);
